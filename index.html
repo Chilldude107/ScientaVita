@@ -4,140 +4,861 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ScientaVita</title>
+
 <style>
   :root{
-    --bg:#0f1220; --card:#171a2e; --text:#e9ecf1; --muted:#a9b0c3;
-    --accent1:#ff5da2; --accent2:#7cf3ff; --accent3:#ffd166; --accent4:#a78bfa; --danger:#ff4d6d;
+    --bg:#0f1220;
+    --card:#171a2e;
+    --text:#e9ecf1;
+    --muted:#a9b0c3;
+    --accent1:#ff5da2;
+    --accent2:#7cf3ff;
+    --accent3:#ffd166;
+    --accent4:#a78bfa;
+    --danger:#ff4d6d;
   }
-  *{box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto,Arial}
-  body{margin:0;background:linear-gradient(120deg,#0f1220,#1a1f3a 60%,#0f1220);color:var(--text)}
-  header{padding:20px;backdrop-filter:blur(10px);position:sticky;top:0;background:#0f1220aa;z-index:10}
- .brand{font-weight:900;font-size:1.9rem;background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));-webkit-background-clip:text;color:transparent}
- .subtitle{color:var(--muted);font-size:14px;margin-top:4px}
- .toolbar{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-  input,select,button,textarea{background:#232745;border:1px solid #2e3360;color:var(--text);padding:10px 14px;border-radius:12px}
-  button{cursor:pointer;font-weight:700;background:linear-gradient(90deg,var(--accent1),var(--accent4));border:none}
-  button.ghost{background:#232745;border:1px solid #2e3360}
-  button.danger{background:var(--danger)}
- .container{max-width:1100px;margin:0 auto;padding:20px}
- .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
- .card{background:var(--card);border:1px solid #2a2f55;border-radius:18px;padding:16px;transition:.2s;position:relative}
- .card:hover{transform:translateY(-4px);box-shadow:0 10px 30px #0005}
- .tag{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;background:#232745;margin-right:6px}
- .article{display:none}
- .article.active{display:block}
- .reactions{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
- .react-btn{padding:6px 10px;border-radius:999px;background:#232745;border:1px solid #2e3360;cursor:pointer}
- .react-btn.active{background:linear-gradient(90deg,var(--accent2),var(--accent3));color:#000}
- .comment{background:#232745;border-radius:12px;padding:10px;margin-top:8px}
- .editor{margin:20px 0;padding:16px;background:var(--card);border-radius:18px;border:1px solid #2a2f55}
- .card-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px}
- .icon-btn{padding:6px 8px;font-size:12px;border-radius:8px}
+
+  *{
+    box-sizing:border-box;
+    font-family:system-ui,Segoe UI,Roboto,Arial;
+  }
+
+  body{
+    margin:0;
+    background:linear-gradient(120deg,#0f1220,#1a1f3a 60%,#0f1220);
+    color:var(--text);
+  }
+
+  header{
+    padding:20px;
+    backdrop-filter:blur(10px);
+    position:sticky;
+    top:0;
+    background:#0f1220aa;
+    z-index:10;
+  }
+
+  .brand{
+    font-weight:900;
+    font-size:1.9rem;
+    background:linear-gradient(
+      90deg,
+      var(--accent1),
+      var(--accent2),
+      var(--accent3)
+    );
+    -webkit-background-clip:text;
+    color:transparent;
+  }
+
+  .subtitle{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:4px;
+  }
+
+  .toolbar{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+
+  input,select,button,textarea{
+    background:#232745;
+    border:1px solid #2e3360;
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:12px;
+  }
+
+  button{
+    cursor:pointer;
+    font-weight:700;
+    background:linear-gradient(90deg,var(--accent1),var(--accent4));
+    border:none;
+  }
+
+  button.ghost{
+    background:#232745;
+    border:1px solid #2e3360;
+  }
+
+  button.danger{
+    background:var(--danger);
+  }
+
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:20px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:18px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid #2a2f55;
+    border-radius:18px;
+    padding:16px;
+    transition:.2s;
+    position:relative;
+  }
+
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 30px #0005;
+  }
+
+  .tag{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:12px;
+    background:#232745;
+    margin-right:6px;
+  }
+
+  .article{
+    display:none;
+  }
+
+  .article.active{
+    display:block;
+  }
+
+  /* Reaction buttons */
+  .reactions{
+    display:flex;
+    gap:8px;
+    margin:12px 0;
+    flex-wrap:wrap;
+  }
+
+  .react-btn{
+    padding:6px 10px;
+    border-radius:999px;
+    background:#232745;
+    border:1px solid #2e3360;
+    cursor:pointer;
+  }
+
+  .react-btn:hover{
+    background:#30365f;
+  }
+
+  .react-btn.active{
+    background:linear-gradient(
+      90deg,
+      var(--accent2),
+      var(--accent3)
+    );
+    color:#000;
+  }
+
+  .comment{
+    background:#232745;
+    border-radius:12px;
+    padding:10px;
+    margin-top:8px;
+  }
+
+  .editor{
+    margin:20px 0;
+    padding:16px;
+    background:var(--card);
+    border-radius:18px;
+    border:1px solid #2a2f55;
+  }
+
+  .card-actions{
+    position:absolute;
+    top:12px;
+    right:12px;
+    display:flex;
+    gap:6px;
+  }
+
+  .icon-btn{
+    padding:6px 8px;
+    font-size:12px;
+    border-radius:8px;
+  }
 </style>
 </head>
+
 <body>
+
 <header>
   <div class="container">
+
     <div class="brand">ScientaVita</div>
-    <div class="subtitle">News that matters. Ask. Discuss. Understand.</div>
+
+    <div class="subtitle">
+      News that matters. Ask. Discuss. Understand.
+    </div>
+
     <div class="toolbar">
-      <input id="search" placeholder="Search articles...">
-      <select id="filter"><option value="all">All Categories</option></select>
-      <button onclick="showEditor()">+ New Article</button>
+
+      <input
+        id="search"
+        placeholder="Search articles..."
+      >
+
+      <select id="filter">
+        <option value="all">All Categories</option>
+      </select>
+
+      <button onclick="showEditor()">
+        + New Article
+      </button>
+
     </div>
   </div>
 </header>
 
+
 <div class="container">
-  <div id="editor" class="editor" style="display:none">
+
+  <!--article editor-->
+
+  <div
+    id="editor"
+    class="editor"
+    style="display:none"
+  >
+
     <h3>Write Article</h3>
-    <input id="title" placeholder="Headline / The Question" style="width:100%;margin-bottom:8px">
-    <input id="author" placeholder="Author" style="width:48%;margin-right:2%">
-    <select id="category"><option>Politics</option><option>Economy</option><option>Health</option><option>Tech</option><option>Culture</option><option>Opinion</option></select>
-    <textarea id="content" placeholder="Write your story / Answer the question..." rows="6" style="width:100%;margin:8px 0"></textarea>
-    <button onclick="saveArticle()">Publish</button>
-    <button class="ghost" onclick="hideEditor()">Cancel</button>
+
+    <input
+      id="title"
+      placeholder="Headline / The Question"
+      style="width:100%;margin-bottom:8px"
+    >
+
+    <input
+      id="author"
+      placeholder="Author"
+      style="width:48%;margin-right:2%"
+    >
+
+    <select id="category">
+      <option>Politics</option>
+      <option>Economy</option>
+      <option>Health</option>
+      <option>Tech</option>
+      <option>Culture</option>
+      <option>Opinion</option>
+    </select>
+
+    <textarea
+      id="content"
+      placeholder="Write your story / Answer the question..."
+      rows="6"
+      style="width:100%;margin:8px 0"
+    ></textarea>
+
+    <button onclick="saveArticle()">
+      Publish
+    </button>
+
+    <button
+      class="ghost"
+      onclick="hideEditor()"
+    >
+      Cancel
+    </button>
+
   </div>
 
+
+  <!-- article list -->
   <div id="list" class="grid"></div>
+
+  <!-- individual articles -->
   <div id="articleView" class="article"></div>
+
 </div>
 
+
 <script>
-let articles = JSON.parse(localStorage.getItem('five_questions_articles') || '[]');
+
+/* loading articles
+   Articles are stored in the browser's localStorage.
+
+   If there are no saved articles yet, we use an empty array. */
+
+let articles = JSON.parse(
+  localStorage.getItem('five_questions_articles') || '[]'
+);
+
 let editingId = null;
 
-function uid(){return Date.now().toString(36)}
-function save(){localStorage.setItem('five_questions_articles',JSON.stringify(articles))}
+
+//reaction data
+   
+articles.forEach(a => {
+
+  // If the article doesn't have a reactions object,
+  // create one with all counters starting at zero.
+  if(!a.reactions){
+    a.reactions = {
+      like: 0,
+      love: 0,
+      wow: 0,
+      angry: 0
+    };
+  }
+
+  // Make sure every reaction is a number.
+  a.reactions.like = Number(a.reactions.like) || 0;
+  a.reactions.love = Number(a.reactions.love) || 0;
+  a.reactions.wow = Number(a.reactions.wow) || 0;
+  a.reactions.angry = Number(a.reactions.angry) || 0;
+
+});
+
+// Save the corrected reaction data.
+save();
+
+
+/* CREATE A UNIQUE ID */
+
+function uid(){
+  return Date.now().toString(36);
+}
+
+
+/* SAVE ARTICLES
+
+   This saves the current articles array to the browser.*/
+
+function save(){
+  localStorage.setItem(
+    'five_questions_articles',
+    JSON.stringify(articles)
+  );
+}
+
+
+/*SHOW ARTICLE EDITOR*/
 
 function showEditor(id=null){
-  editingId=id;
+
+  editingId = id;
+
   document.getElementById('editor').style.display='block';
-  if(id){let a=articles.find(x=>x.id==id);title.value=a.title;author.value=a.author;category.value=a.category;content.value=a.content}
-  else{title.value=author.value=content.value=''}
-  window.scrollTo(0,0)
+
+  if(id){
+
+    let a = articles.find(x => x.id == id);
+
+    title.value = a.title;
+    author.value = a.author;
+    category.value = a.category;
+    content.value = a.content;
+
+  }else{
+
+    title.value = '';
+    author.value = '';
+    content.value = '';
+
+  }
+
+  window.scrollTo(0,0);
 }
-function hideEditor(){document.getElementById('editor').style.display='none'}
+
+
+/*HIDE ARTICLE EDITOR*/
+
+function hideEditor(){
+
+  document.getElementById('editor').style.display='none';
+
+}
+
+/*SAVE / PUBLISH ARTICLE*/
 
 function saveArticle(){
-  let data={id:editingId||uid(),title:title.value,author:author.value,category:category.value,content:content.value,date:new Date().toISOString(),reactions:{like:0,love:0,wow:0,angry:0},comments:[]}
-  if(editingId){articles=articles.map(a=>a.id==editingId?data:a)}else{articles.unshift(data)}
-  save();hideEditor();render()
+
+  let data = {
+
+    id: editingId || uid(),
+
+    title: title.value,
+
+    author: author.value,
+
+    category: category.value,
+
+    content: content.value,
+
+    date: new Date().toISOString(),
+
+    /*REACTION COUNTERS
+Every reaction starts at ZERO.*/
+
+    reactions: {
+      like: 0,
+      love: 0,
+      wow: 0,
+      angry: 0
+    },
+
+    comments: []
+
+  };
+
+
+  if(editingId){
+
+    /*
+      If editing an existing article, replace
+      the old article with the new data.
+    */
+
+    articles = articles.map(
+      a => a.id == editingId ? data : a
+    );
+
+  }else{
+
+    /*
+      If this is a new article, put it at
+      the beginning of the list.
+    */
+
+    articles.unshift(data);
+
+  }
+
+
+  save();
+
+  hideEditor();
+
+  render();
 }
 
+
+/*DELETE ARTICLE */
+
 function deleteArticle(id){
+
   if(confirm("Delete this post? This can't be undone.")){
-    articles = articles.filter(a => a.id!= id);
-    save(); back(); render();
+
+    articles = articles.filter(
+      a => a.id != id
+    );
+
+    save();
+
+    back();
+
+    render();
   }
 }
 
+
+/*
+   DISPLAY ARTICLE CARDS */
+
 function render(){
-  let q=search.value.toLowerCase();let f=filter.value;
-  let list=articles.filter(a=> (f=='all'||a.category==f) && (a.title+a.content+a.author).toLowerCase().includes(q));
-  document.getElementById('list').innerHTML=list.map(a=>`
-    <div class="card">
-      <div class="card-actions">
-        <button class="icon-btn ghost" onclick="event.stopPropagation();showEditor('${a.id}')">Edit</button>
-        <button class="icon-btn danger" onclick="event.stopPropagation();deleteArticle('${a.id}')">Delete</button>
+
+  let q = search.value.toLowerCase();
+  let f = filter.value;
+
+  let list = articles.filter(a =>
+
+    (f == 'all' || a.category == f) &&
+
+    (a.title + a.content + a.author)
+      .toLowerCase()
+      .includes(q)
+
+  );
+
+
+  document.getElementById('list').innerHTML =
+
+    list.map(a => `
+
+      <div class="card">
+
+        <div class="card-actions">
+
+          <button
+            class="icon-btn ghost"
+            onclick="event.stopPropagation();showEditor('${a.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            class="icon-btn danger"
+            onclick="event.stopPropagation();deleteArticle('${a.id}')"
+          >
+            Delete
+          </button>
+
+        </div>
+
+
+        <div onclick="openArticle('${a.id}')">
+
+          <span class="tag">
+            ${a.category}
+          </span>
+
+          <h3>
+            ${a.title}
+          </h3>
+
+          <p style="color:var(--muted);font-size:14px">
+            By ${a.author} •
+            ${new Date(a.date).toLocaleDateString()}
+          </p>
+
+          <p>
+            ${a.content.slice(0,120)}...
+          </p>
+
+        </div>
+
       </div>
-      <div onclick="openArticle('${a.id}')">
-        <span class="tag">${a.category}</span>
-        <h3>${a.title}</h3>
-        <p style="color:var(--muted);font-size:14px">By ${a.author} • ${new Date(a.date).toLocaleDateString()}</p>
-        <p>${a.content.slice(0,120)}...</p>
-      </div>
-    </div>
-  `).join('');
-  let cats=[...new Set(articles.map(a=>a.category))];
-  filter.innerHTML='<option value="all">All Categories</option>'+cats.map(c=>`<option>${c}</option>`).join('')
+
+    `).join('');
+
+
+  /* -----------------------------------------
+     CREATE CATEGORY FILTER
+  ----------------------------------------- */
+
+  let cats = [
+    ...new Set(
+      articles.map(a => a.category)
+    )
+  ];
+
+
+  filter.innerHTML =
+    '<option value="all">All Categories</option>' +
+
+    cats.map(c =>
+      `<option>${c}</option>`
+    ).join('');
 }
+
+
+/* =========================================================
+   OPEN INDIVIDUAL ARTICLE
+========================================================= */
 
 function openArticle(id){
-  let a=articles.find(x=>x.id==id);
-  document.getElementById('list').style.display='none';
-  document.getElementById('articleView').classList.add('active');
-  document.getElementById('articleView').innerHTML=`
-    <button class="ghost" onclick="back()">← Back</button>
-    <button class="danger" style="margin-left:8px" onclick="deleteArticle('${a.id}')">Delete Post</button>
-    <h1>${a.title}</h1>
-    <p style="color:var(--muted)">By ${a.author} • ${new Date(a.date).toLocaleString()}</p>
-    <p style="line-height:1.7;white-space:pre-wrap">${a.content}</p>
-    <div class="reactions">
-      ${['like','love','wow','angry'].map(r=>`<div class="react-btn" onclick="react('${a.id}','${r}')">${r} ${a.reactions[r]}</div>`).join('')}
-    </div>
-    <h3>Comments</h3>
-    <textarea id="cmt" placeholder="Add a comment..." rows="3" style="width:100%"></textarea>
-    <button onclick="addComment('${a.id}')">Post</button>
-    ${a.comments.map(c=>`<div class="comment"><b>${c.author}</b><p>${c.text}</p></div>`).join('')}
-  `
-}
-function back(){document.getElementById('list').style.display='grid';document.getElementById('articleView').classList.remove('active')}
-function react(id,type){let a=articles.find(x=>x.id==id);a.reactions[type]++;save();openArticle(id)}
-function addComment(id){let a=articles.find(x=>x.id==id);if(cmt.value.trim()){a.comments.push({author:'Guest',text:cmt.value});cmt.value='';save();openArticle(id)}}
 
-search.oninput=render; filter.onchange=render;
+  let a = articles.find(
+    x => x.id == id
+  );
+
+
+  document.getElementById('list').style.display='none';
+
+  document
+    .getElementById('articleView')
+    .classList.add('active');
+
+
+  document.getElementById('articleView').innerHTML = `
+
+    <button
+      class="ghost"
+      onclick="back()"
+    >
+      ← Back
+    </button>
+
+    <button
+      class="danger"
+      style="margin-left:8px"
+      onclick="deleteArticle('${a.id}')"
+    >
+      Delete Post
+    </button>
+
+
+    <h1>
+      ${a.title}
+    </h1>
+
+
+    <p style="color:var(--muted)">
+      By ${a.author} •
+      ${new Date(a.date).toLocaleString()}
+    </p>
+
+
+    <p style="line-height:1.7;white-space:pre-wrap">
+      ${a.content}
+    </p>
+
+
+    <!-- =================================================
+         REACTION BUTTONS
+         =================================================
+
+         IMPORTANT:
+
+         The text shown to the user is the emoji.
+
+         But the value passed to react() is the
+         reaction's KEY:
+
+         👍 = like
+         ❤️ = love
+         😮 = wow
+         😠 = angry
+
+         This matches the reactions object above.
+    ================================================= -->
+
+    <div class="reactions">
+
+      <!-- LIKE BUTTON -->
+      <div
+        class="react-btn"
+        onclick="react('${a.id}','like')"
+      >
+        👍 ${a.reactions.like || 0}
+      </div>
+
+
+      <!-- LOVE BUTTON -->
+      <div
+        class="react-btn"
+        onclick="react('${a.id}','love')"
+      >
+        ❤️ ${a.reactions.love || 0}
+      </div>
+
+
+      <!-- WOW BUTTON -->
+      <div
+        class="react-btn"
+        onclick="react('${a.id}','wow')"
+      >
+        😮 ${a.reactions.wow || 0}
+      </div>
+
+
+      <!-- ANGRY BUTTON -->
+      <div
+        class="react-btn"
+        onclick="react('${a.id}','angry')"
+      >
+        😠 ${a.reactions.angry || 0}
+      </div>
+
+    </div>
+
+
+    <h3>
+      Comments
+    </h3>
+
+
+    <textarea
+      id="cmt"
+      placeholder="Add a comment..."
+      rows="3"
+      style="width:100%"
+    ></textarea>
+
+
+    <button
+      onclick="addComment('${a.id}')"
+    >
+      Post
+    </button>
+
+
+    ${a.comments.map(c => `
+
+      <div class="comment">
+
+        <b>
+          ${c.author}
+        </b>
+
+        <p>
+          ${c.text}
+        </p>
+
+      </div>
+
+    `).join('')}
+
+  `;
+}
+
+
+/* =========================================================
+   REACTION FUNCTION
+   =========================================================
+
+   This is the main fix.
+
+   When somebody clicks a reaction button:
+
+   react(articleID, reactionType)
+
+   Example:
+
+   react("abc123", "like")
+
+   The function finds the article and increases
+   its "like" counter by 1.
+========================================================= */
+
+function react(id,type){
+
+  // Find the article that was clicked.
+  let a = articles.find(
+    x => x.id == id
+  );
+
+
+  /* -----------------------------------------
+     SAFETY CHECK
+
+     Make sure the article has a reactions
+     object.
+  ----------------------------------------- */
+
+  if(!a.reactions){
+
+    a.reactions = {
+      like: 0,
+      love: 0,
+      wow: 0,
+      angry: 0
+    };
+
+  }
+
+
+  /* -----------------------------------------
+     SAFETY CHECK
+
+     Make sure the selected reaction exists
+     and is a number.
+
+     If it doesn't exist, start it at ZERO.
+  ----------------------------------------- */
+
+  if(typeof a.reactions[type] !== 'number'){
+
+    a.reactions[type] = 0;
+
+  }
+
+
+  /* -----------------------------------------
+     ADD ONE REACTION
+
+     Example:
+
+     like = 0
+
+     User clicks 👍
+
+     like = 1
+
+     User clicks 👍 again
+
+     like = 2
+  ----------------------------------------- */
+
+  a.reactions[type]++;
+
+
+  // Save the new number to localStorage.
+  save();
+
+
+  // Re-open the article so the new number
+  // immediately appears on the screen.
+  openArticle(id);
+}
+
+
+/* =========================================================
+   GO BACK TO ARTICLE LIST
+========================================================= */
+
+function back(){
+
+  document.getElementById('list').style.display='grid';
+
+  document
+    .getElementById('articleView')
+    .classList.remove('active');
+
+}
+
+
+/* =========================================================
+   ADD COMMENT
+========================================================= */
+
+function addComment(id){
+
+  let a = articles.find(
+    x => x.id == id
+  );
+
+
+  if(cmt.value.trim()){
+
+    a.comments.push({
+
+      author:'Guest',
+
+      text:cmt.value
+
+    });
+
+
+    cmt.value='';
+
+    save();
+
+    openArticle(id);
+
+  }
+}
+
+
+/* =========================================================
+   SEARCH AND CATEGORY FILTER
+========================================================= */
+
+search.oninput = render;
+
+filter.onchange = render;
+
+
+/* =========================================================
+   INITIAL PAGE LOAD
+========================================================= */
+
 render();
+
 </script>
+
 </body>
 </html>
